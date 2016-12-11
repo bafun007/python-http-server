@@ -2,7 +2,7 @@
 """
 Simple HTTP server in python.  This script will save the log data int Data.txt
 Usage::
-	./python_cpa_web_server.py [<port>] [<logFile>] -- default port is 12345 and logFile is Data.txt
+	./python_web_server.py [<port>] [<logFile>] -- default port is 12345 and logFile is Data.txt
 Send a GET request::
 	curl http://localhost
 Send a HEAD request::
