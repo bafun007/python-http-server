@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
-Simple CPA HTTP server in python.  This script will save the log data int DaeData.txt
+Simple HTTP server in python.  This script will save the log data int Data.txt
 Usage::
-	./python_cpa_web_server.py [<port>] [<logFile>] -- default port is 12345 and logFile is DaeData.txt
+	./python_cpa_web_server.py [<port>] [<logFile>] -- default port is 12345 and logFile is Data.txt
 Send a GET request::
 	curl http://localhost
 Send a HEAD request::
@@ -17,13 +17,13 @@ import io
 import csv
 
 
-logFile = 'DaeData.json'
+logFile = 'Data.json'
 dataTable = 'AnalyzedDataTable.json'
 port = 12345
 tabObj = {}
 savedTabObj = {}
 
-# Make tree structure device node
+# Make jason tree structure where input keys/value pairs are define as [{xyz.abc.def.jkl, "My Private Data"}, ....]
 def do_Tree(data):
 	d={}
 	for f in data.keys():
@@ -41,7 +41,7 @@ def do_Tree(data):
 				break;
 	return d
 
-def save_DaeData(pdata):
+def save_Data(pdata):
 	print (json.dumps(pdata, indent=4))
 	f = open(logFile, 'aw+')
 	f.write(unicode(json.dumps(pdata, indent=4)))
@@ -79,7 +79,7 @@ class S(BaseHTTPRequestHandler):
 			pdata = json.loads(self.data_string)
 		except ValueError as e:
 			# Not json format.  Just record the data 
-			save_DaeData(self.data_string)
+			save_Data(self.data_string)
 			return
 			
 		# convert the incoming tr181 data from csv to json format 
@@ -118,7 +118,7 @@ class S(BaseHTTPRequestHandler):
 		# print (json.dumps(tabObj, indent=4))
 	
 		# Save full data from TR181 datasource       
-		save_DaeData(pdata)
+		save_Data(pdata)
 
 
 def run(server_class=HTTPServer, handler_class=S, port=port):
